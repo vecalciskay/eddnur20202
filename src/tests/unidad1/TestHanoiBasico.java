@@ -1,4 +1,4 @@
-package tests;
+package tests.unidad1;
 
 import recursividad.HanoiBasico;
 
