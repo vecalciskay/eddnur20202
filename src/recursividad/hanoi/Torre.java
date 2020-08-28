@@ -33,4 +33,9 @@ public class Torre {
 	public int cantidad() {
 		return anillos.size();
 	}
+
+	public Stack<Anillo> getAnillos() {
+		return anillos;
+	}
+	
 }

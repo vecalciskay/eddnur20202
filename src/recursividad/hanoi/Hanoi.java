@@ -1,5 +1,6 @@
 package recursividad.hanoi;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,7 @@ public class Hanoi {
 	private static final Logger logger = LogManager.getRootLogger();
 	private Torre[] torres;
 	private PropertyChangeSupport cambios;
+	private int milisegundos;
 	
 	public Hanoi() {
 		torres = new Torre[3];
@@ -54,6 +56,11 @@ public class Hanoi {
 	}
 	
 	public void resolver(int de, int a, int pp)  {
+		resolver(de, a, pp, 0);
+	}
+	
+	public void resolver(int de, int a, int pp, int milisegundos)  {
+		this.milisegundos = milisegundos;
 		resolverRecursivo(de,a,pp,torres[de].cantidad());
 	}
 
@@ -63,6 +70,11 @@ public class Hanoi {
 			Anillo anillo = torres[de].sacar();
 			torres[a].meter(anillo);
 			cambios.firePropertyChange("MUEVE", de, a);
+			try {
+				Thread.sleep(milisegundos);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
 		
@@ -71,7 +83,11 @@ public class Hanoi {
 		resolverRecursivo(pp, a, de, n - 1);
 	}
 
-	public void addObservador(TestHanoi observadorHanoi) {
+	public void addObservador(PropertyChangeListener observadorHanoi) {
 		cambios.addPropertyChangeListener(observadorHanoi);
+	}
+
+	public Torre getTorre(int nroTorre) {
+		return torres[nroTorre];
 	}
 }

@@ -7,8 +7,6 @@ import recursividad.hanoi.Hanoi;
 
 public class TestHanoi implements PropertyChangeListener {
 	
-	
-	
 	public static void main(String[] args) {
 		Hanoi hanoi = new Hanoi();
 		TestHanoi observadorHanoi = new TestHanoi();
