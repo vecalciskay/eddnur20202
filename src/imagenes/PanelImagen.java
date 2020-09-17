@@ -4,10 +4,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 
-public class PanelImagen extends JPanel implements MouseListener {
+public class PanelImagen extends JPanel 
+	implements MouseListener, PropertyChangeListener {
 
 	private Imagen modelo;
 
@@ -31,7 +34,6 @@ public class PanelImagen extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -44,6 +46,7 @@ public class PanelImagen extends JPanel implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		modelo.crearCuadrado(e.getX(), e.getY());
+		modelo.zoomMandelbrot(e.getX(), e.getY());
 	}
 
 	@Override
@@ -56,5 +59,10 @@ public class PanelImagen extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		this.repaint();
 	}
 }

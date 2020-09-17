@@ -1,4 +1,4 @@
-package tests.unidad1;
+package tests.unidad2;
 
 import imagenes.FRameImagen;
 
