@@ -1,4 +1,4 @@
-package tests.unidad1;
+package tests.patrones;
 
 import observer.Alumno;
 import observer.Profesor;
