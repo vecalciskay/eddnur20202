@@ -1,5 +1,7 @@
 package listas;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Iterator;
 
 public class Lista<E> implements Iterable<E> {
@@ -27,9 +29,7 @@ public class Lista<E> implements Iterable<E> {
 
 		public void setSiguiente(Nodo<E> siguiente) {
 			this.siguiente = siguiente;
-		}
-		
-		
+		}		
 	}
 	
 	static class Iterador<E> implements Iterator<E> {
@@ -41,11 +41,15 @@ public class Lista<E> implements Iterable<E> {
 		}
 		@Override
 		public boolean hasNext() {
+
+			System.out.println("OP");
 			return actual != null;
 		}
 
 		@Override
 		public E next() {
+
+			System.out.println("OP");
 			E siguienteObjeto = actual.getContenido();
 			actual = actual.getSiguiente();
 			return siguienteObjeto;
@@ -53,14 +57,20 @@ public class Lista<E> implements Iterable<E> {
 		
 	}
 	
+	private PropertyChangeSupport cambio;
 	private Nodo<E> raiz;
 	
 	public Lista() {
 		raiz = null;
+		cambio = new PropertyChangeSupport(this);
 	}
 
 	public Nodo<E> getRaiz() {
 		return raiz;
+	}
+	
+	public void observador(PropertyChangeListener listener) {
+		this.cambio.addPropertyChangeListener(listener);
 	}
 
 	public void setRaiz(Nodo<E> raiz) {
@@ -79,6 +89,7 @@ public class Lista<E> implements Iterable<E> {
 		
 		nuevo.setSiguiente(raiz);
 		raiz = nuevo;
+		cambio.firePropertyChange("INSERT", 0, 1);
 	}
 	
 	@Override
@@ -105,7 +116,26 @@ public class Lista<E> implements Iterable<E> {
 		int t = 0;
 		for(E o : this) {
 			t++;
+			System.out.println("OP");
 		}
 		return t;
+	}
+	
+	public E get(int i) {
+		int posicionActual = 0;
+		Nodo<E> actual = raiz;
+		while(actual != null && posicionActual < i) {
+
+			System.out.println("OP");
+			posicionActual++;
+			actual = actual.getSiguiente();
+		}
+		
+		if (actual == null)
+			return null;
+		
+
+		System.out.println("OP");
+		return actual.getContenido();
 	}
 }

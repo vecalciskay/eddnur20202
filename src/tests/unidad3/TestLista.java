@@ -15,11 +15,8 @@ public class TestLista {
 
 		System.out.println(a);
 		
-		Iterator<String> iterator = a.iterator();
-		while(iterator.hasNext()) {
-			String persona = iterator.next();
-			System.out.println(persona);
-		}
+		System.out.println(a.get(2));
+		
 		
 		System.out.println("For abreviado");
 		for(String s : a) {
