@@ -92,6 +92,29 @@ public class Lista<E> implements Iterable<E> {
 		cambio.firePropertyChange("INSERT", 0, 1);
 	}
 	
+	/**
+	 * Operacion insertar:
+	 * Lista antes: X -> M -> H
+	 * Objeto a adicionar: E
+	 * Lista despues: X -> M -> H -> E
+	 * @param o
+	 */
+	public void adicionar(E o) {
+		Nodo<E> nuevoNodo = new Nodo<E>(o);
+		
+		if (raiz == null)
+		{
+			raiz = nuevoNodo;
+			return;
+		}
+		
+		Nodo<E> actual = raiz;
+		while(actual.getSiguiente() != null) {
+			actual = actual.getSiguiente();
+		}
+		actual.setSiguiente(nuevoNodo);
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
@@ -137,5 +160,50 @@ public class Lista<E> implements Iterable<E> {
 
 		System.out.println("OP");
 		return actual.getContenido();
+	}
+	
+	public void eliminar(int i) {
+		
+		if (i == 0) {
+			raiz = raiz.getSiguiente();
+			return;
+		}
+		
+		int posicionActual = 0;
+		Nodo<E> actual = raiz;
+		while(actual != null && posicionActual < (i-1)) {
+
+			posicionActual++;
+			actual = actual.getSiguiente();
+		}
+		
+		if (actual == null)
+			return;
+		
+		actual.setSiguiente(actual.getSiguiente().getSiguiente());
+	}
+	
+	public void insertar(int i, E o) {
+		if (i == 0) {
+			insertar(o);
+			return;
+		}
+		
+		Nodo<E> nuevoNodo = new Nodo<E>(o);
+		
+		int posicionActual = 0;
+		Nodo<E> actual = raiz;
+		while(actual != null && posicionActual < (i-1)) {
+
+			posicionActual++;
+			actual = actual.getSiguiente();
+		}
+
+		nuevoNodo.setSiguiente(actual.getSiguiente());
+		actual.setSiguiente(nuevoNodo);
+	}
+
+	public void vaciar() {
+		raiz = null;
 	}
 }

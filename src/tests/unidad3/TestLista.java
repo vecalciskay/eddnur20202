@@ -17,12 +17,28 @@ public class TestLista {
 		
 		System.out.println(a.get(2));
 		
-		
 		System.out.println("For abreviado");
 		for(String s : a) {
 			System.out.println(s);
 		}
 		
-		System.out.println("El tamano de la lista es: " + a.tamano());
+		System.out.println("El tamano de la lista es: " + a.tamano());		
+		
+		a.vaciar();
+		
+		a.adicionar("Hugo");
+		a.adicionar("Paco");
+		a.adicionar("Luis");
+		a.insertar("Soledad");
+		
+		System.out.println(a);
+		
+		a.eliminar(2);
+
+		System.out.println(a);
+		
+		a.insertar(2, "Juan");
+
+		System.out.println(a);
 	}
 }
