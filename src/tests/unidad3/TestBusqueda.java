@@ -1,11 +1,11 @@
 package tests.unidad3;
 
-import listas.Lista;
+import listas.ListaOrdenada;
 import listas.model.Persona;
 
 public class TestBusqueda {
 	public static void main(String[] args) {
-		Lista<Persona> a = new Lista<Persona>();
+		ListaOrdenada<Persona> a = new ListaOrdenada<Persona>();
 		System.out.println(a);
 
 		a.insertar(new Persona("Hugo", 65162786));
@@ -19,7 +19,7 @@ public class TestBusqueda {
 		
 		System.out.println(a);
 		
-		Persona persona = new Persona("", Long.valueOf(9257656));
+		Persona persona = new Persona("", Long.valueOf(2364673));
 		Persona encontrada = a.buscarSimple(persona);
 		
 		System.out.println(encontrada);

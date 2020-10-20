@@ -58,6 +58,7 @@ public class Persona implements Identificable<Long>, Comparable<Persona> {
 
 	@Override
 	public int compareTo(Persona o) {
-		return nombre.compareTo(o.getNombre());
+		return Long.compare(carnet, o.getCarnet());
+		//return nombre.compareTo(o.getNombre());
 	}
 }
