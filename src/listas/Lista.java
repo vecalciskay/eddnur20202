@@ -44,15 +44,12 @@ public class Lista<E> implements Iterable<E> {
 
 		@Override
 		public boolean hasNext() {
-
-			System.out.println("OP");
 			return actual != null;
 		}
 
 		@Override
 		public E next() {
 
-			System.out.println("OP");
 			E siguienteObjeto = actual.getContenido();
 			actual = actual.getSiguiente();
 			return siguienteObjeto;
@@ -139,7 +136,6 @@ public class Lista<E> implements Iterable<E> {
 		int t = 0;
 		for (E o : this) {
 			t++;
-			System.out.println("OP");
 		}
 		return t;
 	}
@@ -149,7 +145,6 @@ public class Lista<E> implements Iterable<E> {
 		Nodo<E> actual = raiz;
 		while (actual != null && posicionActual < i) {
 
-			System.out.println("OP");
 			posicionActual++;
 			actual = actual.getSiguiente();
 		}
@@ -157,7 +152,6 @@ public class Lista<E> implements Iterable<E> {
 		if (actual == null)
 			return null;
 
-		System.out.println("OP");
 		return actual.getContenido();
 	}
 
