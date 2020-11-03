@@ -17,11 +17,11 @@ public class TestArbolBinario {
 			arbol.insertar("H", "H", "C");
 			arbol.insertar("X", "X", "C");
 			
-			arbol.insertar("E", "E", "A");
 		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}
 		
+
 		System.out.println(arbol);
 		
 	}

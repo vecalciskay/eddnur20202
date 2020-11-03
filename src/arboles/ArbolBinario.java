@@ -63,13 +63,41 @@ public class ArbolBinario<E> {
 			resultado.append("(");
 			String separador = "";
 
-			resultado.append(separador).append(izquierda.toString());
-			separador = ",";
+			if (izquierda != null) {
+				resultado.append(separador).append(izquierda.toString());			
+				separador = ",";
+			}
+			
 			if (derecha != null) {
 				resultado.append(separador).append(derecha.toString());
 			}
 
 			resultado.append(")");
+
+			return resultado.toString();
+		}
+		
+		public String toStringOrdenado() {
+			StringBuilder resultado = new StringBuilder();
+			String separador = "";
+			
+
+			if (izquierda == null && derecha == null) {
+				resultado.append(id);
+				return resultado.toString();
+			}
+			
+			if (izquierda != null) {
+				resultado.append(separador).append(izquierda.toStringOrdenado());	
+				separador = " ";
+			}
+			
+			resultado.append(separador).append(id);
+			separador = " ";
+
+			if (derecha != null) {
+				resultado.append(separador).append(derecha.toStringOrdenado());
+			}
 
 			return resultado.toString();
 		}
@@ -82,12 +110,44 @@ public class ArbolBinario<E> {
 			else
 				throw new Exception("Trata de colocar nuevo nodo " + nuevoNodo.getId() + " debajo de " + this.id + ", pero " + this.toString() + " no puede tener mas de dos hijos");
 		}
+
+		public void insertarOrdenado(E o, String id) {
+			if (((Comparable)o).compareTo(contenido) < 0) {
+				if (izquierda == null) {
+					izquierda = new Nodo(id, o);
+					return;
+				}
+				else {
+					izquierda.insertarOrdenado(o, id);
+				}
+			} else {
+				if (derecha == null) {
+					derecha = new Nodo(id, o);
+					return;
+				}
+				else {
+					derecha.insertarOrdenado(o, id);
+				}
+			}
+		}
 	}
 
 	private Nodo<E> raiz;
 
 	public ArbolBinario() {
 		raiz = null;
+	}
+	
+	public void insertar(E o, String id) throws Exception {
+		
+		if (raiz == null || !(o instanceof Comparable))
+		{
+			// log.warning("El nodo se inserta pero reemplaza a la raiz ya que no tiene padre")
+			insertar(o, id, null);
+			return;
+		}
+		
+		raiz.insertarOrdenado(o, id);
 	}
 
 	public void insertar(E o, String id, String idpadre) throws Exception {
@@ -108,11 +168,19 @@ public class ArbolBinario<E> {
 	private Nodo<E> encontrar(String padre) {
 		return raiz.encontrar(padre);
 	}
+	
+	public String toStringOrdenado() {
+		if (raiz == null)
+			return "[VACIO]";
+				
+		return raiz.toStringOrdenado();
+	}
 
 	@Override
 	public String toString() {
 		if (raiz == null)
 			return "[VACIO]";
+				
 		return raiz.toString();
 	}
 }
