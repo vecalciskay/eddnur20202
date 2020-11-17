@@ -16,6 +16,22 @@ public class ArbolAritmetico {
 			derecha = null;
 		}
 
+		public Nodo getIzquierda() {
+			return izquierda;
+		}
+
+		public void setIzquierda(Nodo izquierda) {
+			this.izquierda = izquierda;
+		}
+
+		public Nodo getDerecha() {
+			return derecha;
+		}
+
+		public void setDerecha(Nodo derecha) {
+			this.derecha = derecha;
+		}
+
 		public String getId() {
 			return id;
 		}
@@ -126,6 +142,17 @@ public class ArbolAritmetico {
 				}
 			}
 		}
+		
+		public double evaluar() {
+			if (contenido instanceof Numero) {
+				return ((Numero) contenido).evaluar();
+			}
+			
+			double izq = izquierda == null ? 0.0 : izquierda.evaluar();
+			double der = derecha == null ? 0.0 : derecha.evaluar();
+			
+			return ((Operacion)contenido).evaluar(izq, der);
+		}
 	}
 
 	private Nodo raiz;
@@ -134,6 +161,83 @@ public class ArbolAritmetico {
 		raiz = null;
 	}
 	
+	public ArbolAritmetico(String expresion) throws Exception {
+		raiz = leerExpresion(null, expresion);
+	}
+	
+	private Nodo leerExpresion(Nodo padre, String expresion) throws Exception {
+		int largo = expresion.length();
+
+		int posicionActual = 0;
+		int conteoParentesis = 0;
+		
+		int posibleNumeroExpresion = Integer.MIN_VALUE;
+		try {
+			posibleNumeroExpresion = Integer.parseInt(expresion);
+			Nodo resultadoNodo = new Nodo("A", new Numero((double)posibleNumeroExpresion));
+			resultadoNodo.setPadre(padre);
+			return resultadoNodo;
+		} catch (Exception e) {
+			// Nada
+		}
+		
+		while(posicionActual < largo) {
+			int numero = Integer.MIN_VALUE;
+			try {
+				numero = Integer.parseInt(String.valueOf(expresion.charAt(posicionActual)));
+				
+				// posible numero
+				posicionActual++;
+				continue;
+			}
+			catch(Exception q) {
+				numero = Integer.MIN_VALUE;
+			}
+			
+			if (expresion.charAt(posicionActual) == '(') {
+				conteoParentesis++;
+				posicionActual++;
+				continue;
+			}
+			
+			if (expresion.charAt(posicionActual) == ')') {
+				conteoParentesis--;
+				posicionActual++;
+				continue;
+			}
+			
+			Operador posibleOperadorPrincipal = null;
+			try {
+				posibleOperadorPrincipal = 
+						Operacion.ParseOperador(String.valueOf(expresion.charAt(posicionActual)));
+				if (conteoParentesis == 0) {
+					
+					// 0.  Crear el NODO
+					Nodo resultadoNodo = new Nodo("A", new Operacion(posibleOperadorPrincipal));
+					resultadoNodo.setPadre(padre);
+					
+					// 1. Crear el NODO IZQUIERDA
+					String izquierdaExpresion = expresion.substring(0, posicionActual);
+					Nodo izquierdaNodo = leerExpresion(resultadoNodo, izquierdaExpresion);
+					resultadoNodo.setIzquierda(izquierdaNodo);
+
+					// 2. Crear el NODO DERECHA
+					String derechaExpresion = expresion.substring(posicionActual+1);
+					Nodo derechaNodo = leerExpresion(resultadoNodo, derechaExpresion);
+					resultadoNodo.setDerecha(derechaNodo);
+					
+					return resultadoNodo;
+					
+				}
+			} catch(Exception q) {
+				posicionActual++;
+				continue;
+			}
+		}
+		
+		throw new Exception("No pudo leer la expresion");
+	}
+
 	public void insertar(ObjetoAritmetico o, String id) throws Exception {
 		
 		if (raiz == null || !(o instanceof Comparable))
@@ -177,6 +281,12 @@ public class ArbolAritmetico {
 		if (raiz == null)
 			return "[VACIO]";
 				
-		return raiz.toString();
+		String expresionAritmetica = raiz.toString();
+		double resultado = evaluar();
+		return expresionAritmetica + " = " + resultado;
+	}
+	
+	public double evaluar() {
+		return raiz.evaluar();
 	}
 }

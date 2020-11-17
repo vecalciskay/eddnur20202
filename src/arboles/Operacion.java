@@ -33,4 +33,17 @@ public class Operacion extends ObjetoAritmetico {
 		// no deberia lllegar aca
 		return 0;
 	}
+	
+	public static Operador ParseOperador(String s) throws Exception {
+		if (s.equals("+"))
+			return Operador.suma;
+		if (s.equals("-"))
+			return Operador.resta;
+		if (s.equals("*"))
+			return Operador.multiplicacion;
+		if (s.equals("/"))
+			return Operador.division;
+		
+		throw new Exception("No pudo leer operacion");
+	}
 }
