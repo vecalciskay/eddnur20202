@@ -165,16 +165,18 @@ public class ArbolAritmetico {
 		raiz = leerExpresion(null, expresion);
 	}
 	
-	private Nodo leerExpresion(Nodo padre, String expresion) throws Exception {
+	private Nodo leerExpresion(Nodo padre, String expresionSucia) throws Exception {
+		String expresion = expresionSucia.trim();
+		
 		int largo = expresion.length();
 
 		int posicionActual = 0;
 		int conteoParentesis = 0;
 		
-		int posibleNumeroExpresion = Integer.MIN_VALUE;
+		double posibleNumeroExpresion = Double.MIN_VALUE;
 		try {
-			posibleNumeroExpresion = Integer.parseInt(expresion);
-			Nodo resultadoNodo = new Nodo("A", new Numero((double)posibleNumeroExpresion));
+			posibleNumeroExpresion =  Double.parseDouble(expresion);
+			Nodo resultadoNodo = new Nodo("A", new Numero(posibleNumeroExpresion));
 			resultadoNodo.setPadre(padre);
 			return resultadoNodo;
 		} catch (Exception e) {
@@ -182,9 +184,22 @@ public class ArbolAritmetico {
 		}
 		
 		while(posicionActual < largo) {
+			
+			char caracterActual = expresion.charAt(posicionActual);
+			
+			if (caracterActual == ' ' || caracterActual == '\t') {
+				posicionActual++;
+				continue;
+			}
+			
+			if (caracterActual == '.') {
+				posicionActual++;
+				continue;
+			}
+			
 			int numero = Integer.MIN_VALUE;
 			try {
-				numero = Integer.parseInt(String.valueOf(expresion.charAt(posicionActual)));
+				numero = Integer.parseInt(String.valueOf(caracterActual));
 				
 				// posible numero
 				posicionActual++;
@@ -194,14 +209,14 @@ public class ArbolAritmetico {
 				numero = Integer.MIN_VALUE;
 			}
 			
-			if (expresion.charAt(posicionActual) == '(') {
+			if (caracterActual == '(') {
 				conteoParentesis++;
 				posicionActual++;
 				continue;
 			}
 			
-			if (expresion.charAt(posicionActual) == ')') {
-				conteoParentesis--;
+			if (caracterActual == ')') {
+				conteoParentesis--;				
 				posicionActual++;
 				continue;
 			}
@@ -209,7 +224,7 @@ public class ArbolAritmetico {
 			Operador posibleOperadorPrincipal = null;
 			try {
 				posibleOperadorPrincipal = 
-						Operacion.ParseOperador(String.valueOf(expresion.charAt(posicionActual)));
+						Operacion.ParseOperador(String.valueOf(caracterActual));
 				if (conteoParentesis == 0) {
 					
 					// 0.  Crear el NODO
@@ -227,13 +242,19 @@ public class ArbolAritmetico {
 					resultadoNodo.setDerecha(derechaNodo);
 					
 					return resultadoNodo;
-					
+				}
+				else {
+					posicionActual++;
+					continue;
 				}
 			} catch(Exception q) {
 				posicionActual++;
 				continue;
 			}
 		}
+		
+		if (expresion.startsWith("(") && expresion.endsWith(")") && conteoParentesis == 0)
+			return leerExpresion(padre, expresion.substring(1, expresion.length() - 1));
 		
 		throw new Exception("No pudo leer la expresion");
 	}

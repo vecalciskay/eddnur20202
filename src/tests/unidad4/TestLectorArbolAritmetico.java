@@ -9,7 +9,7 @@ public class TestLectorArbolAritmetico {
 		ArbolAritmetico arbol = new ArbolAritmetico(expresion);
 		System.out.println(arbol);
 		
-		expresion = "46"; 
+		expresion = " (  46)"; 
 		arbol = new ArbolAritmetico(expresion);
 		System.out.println(arbol);
 		
@@ -17,13 +17,16 @@ public class TestLectorArbolAritmetico {
 		arbol = new ArbolAritmetico(expresion);
 		System.out.println(arbol);
 		
-		expresion = "4+5"; 
+		expresion = "4 +                   5"; 
 		arbol = new ArbolAritmetico(expresion);
 		System.out.println(arbol);
 		
-		expresion = "3+7"; 
+		expresion = "(  3.5+  7)   -  8"; 
 		arbol = new ArbolAritmetico(expresion);
 		System.out.println(arbol);
 		
+		expresion = "( (4*2)/(6+(	3-1.856)) ) +5"; 
+		arbol = new ArbolAritmetico(expresion);
+		System.out.println(arbol);
 	}
 }
