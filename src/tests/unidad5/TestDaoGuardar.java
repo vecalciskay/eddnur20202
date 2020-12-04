@@ -12,11 +12,12 @@ public class TestDaoGuardar {
 	private final static Logger log = LogManager.getRootLogger();
 
 	public static void main(String[] args) {
+
+		DAOPersona dao = new DAOPersona();
 		
 		DTOPersona p = new DTOPersona();
 		p.setNombre("Donald");
 		
-		DAOPersona dao = new DAOPersona();
 		
 		try {
 			dao.guardar(p);

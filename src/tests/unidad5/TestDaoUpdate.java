@@ -11,7 +11,6 @@ public class TestDaoUpdate {
 		
 		DAOPersona daoPersona= new DAOPersona();
 		
-		
 		DTOPersona persona = daoPersona.get(4);
 		
 		persona.setNombre("Donald");
